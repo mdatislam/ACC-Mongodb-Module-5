@@ -1,26 +1,52 @@
 const { MongoClient } =require("mongodb");
-const connectionString = process.env.ATLAS_URI;
-//const client = new MongoClient("mongodb://localhost:27017")
-const client = new MongoClient("mongodb://localhost:27017",{
-    useNewUrlParser: true,
-    useUnifiedTopology:true,
+require("dotenv").config();
+const connectionString = process.env.ATLAS_URI || "";
+const client = new MongoClient(connectionString, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
 });
 
 let dbConnection;
 
 module.exports = {
     connectToServer: function (callback) {
-        client.connect(function (err, db) {
-            if (err || !db) {
+        client.connect()
+            .then((client => {
+                dbConnection = client.db("Zakia");
+                return callback();
+                console.log("Successfully connected to MongoDB");
+            })).catch((err) => {
                 return callback(err);
-            }
-            dbConnection = db.db("users");
-            console.log("Successfully connected to MongoDB");
-            return callback()
+                console.log(err);
         })
+              
     },
 
-    getDb: function () {
+    getDB: function () {
         return dbConnection;
     }
 }
+
+// 2nd Method to connect MongoDb
+//require("dotenv").config();
+// const MongoClient = require("mongodb").MongoClient;
+
+// let dbConnection;
+
+// module.exports = {
+//   connectDB: function (callback) {
+//     const url = process.env.DB;
+//     MongoClient.connect(url)
+//       .then((client) => {
+//         dbConnection = client.db("Atiq");
+//         return callback();
+//       })
+//       .catch((err) => {
+//         console.log(err);
+//         return callback(err);
+//       });
+//   },
+//   getDB: function () {
+//     return dbConnection;
+//   },
+// };
