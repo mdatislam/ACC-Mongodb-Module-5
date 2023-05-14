@@ -12,7 +12,7 @@ module.exports = {
     connectToServer: function (callback) {
         client.connect()
             .then((client => {
-                dbConnection = client.db("Zakia");
+                dbConnection = client.db("atiqul");
                 return callback();
                 console.log("Successfully connected to MongoDB");
             })).catch((err) => {
