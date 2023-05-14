@@ -45,4 +45,6 @@ router.route("/save").post(userController.addUser);
 router.route("/update/:id").patch(userController.updateUser);
 router.route("/delete/:id").delete(userController.deleteUser);
 
+router.route("/test/test10").post(userController.insertTest).get(userController.findTest)
+
 module.exports=router

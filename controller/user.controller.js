@@ -7,7 +7,7 @@ const customer = JSON.parse(jsonString);
 
 module.exports.getRandomUser = async (req, res, next) => {
   try {
-    //const db= getDb()
+    const db= getDB()
     let x = Math.floor(Math.random() * customer.length + 1);
     //console.log(x)
     const name = customer.filter((n) => n.id === Number(x));
@@ -165,4 +165,24 @@ module.exports.deleteUser = async (req, res, next) => {
   } catch (error) {
     next(error);
   }
+};
+
+
+/* Kuno collume er Index create korle query time kom lage setear explation niche deoa holo */
+
+module.exports.insertTest = async (req, res, next) => {
+  
+  for (let i = 0; i < 100000; i++){
+    const db = getDB();
+    const result = await db.collection("test10").insertOne({ name: `test ${i}`, Age: i });
+  
+  }
+    res.send("done");
+}
+module.exports.findTest = async (req, res, next) => {
+  const db = getDB();
+ 
+    const result = await db.collection("test10").findOne({Age:9999});
+    res.json(result);
+  
 };
